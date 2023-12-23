@@ -1,0 +1,51 @@
+Springtrap\William Afton - Moveset
+
+A
+
+Dash + A
+
+Down + A
+
+B
+
+Dash + B
+
+Down + B
+
+C
+
+Down + C
+
+A Aire
+
+Down + A Aire
+
+B Aire
+
+Down + B Aire
+
+C Aire
+
+Down + C Aire
+
+Y - Glitch Teleport
+
+S - Power Charge
+
+SPECIALS:
+
+D,DF,F,a - Purple Soul (And Aire)
+
+D,DB,B,a - Phantom Attack
+
+D,DF,F,b - Phantom Fox
+
+D,DB,B,b - ScrapTrap's Knife
+
+D,DF,F,c - Bloody Scream
+
+D,DB,B,c - Puppet Master
+
+ULTIMATE: 
+
+D,DF,F,D,DF,F,a+b or x - Glitched Madness (And Aire)

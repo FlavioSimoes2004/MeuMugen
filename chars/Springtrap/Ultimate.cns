@@ -1,0 +1,1799 @@
+;===================================================================================
+;---------------------------------- Ultimate --------------------------------------;
+;===================================================================================
+;===============================================================================
+; Glitched Madness
+;-------------------------------------------------------------------------------
+[Statedef 3000]
+type    = S
+movetype= A
+physics = N
+juggle  = 1
+velset = 0,0
+ctrl = 0
+anim = 3000
+poweradd = -2000
+sprpriority = 3
+
+;------------------------------------------
+[State 3000, SuperPause]
+Type = SuperPause
+Trigger1 = Time = 0
+Time = 80
+MoveTime = 80
+Anim = -1
+Sound = -1
+Pos = 32,-80
+Darken = 0
+UnHitTable = 1
+
+; Ultimate Portrait
+[State 0, Ultimate Portrait]
+Type = Helper
+Trigger1 = Time = 0
+Stateno = 8050
+ID = 8050
+Pos = 0,-70
+Ownpal = 1
+Postype = p1
+PauseMoveTime = 99999
+SuperMoveTime = 99999
+;------------------------------------------
+
+[State 0, VarSet]
+type = VarSet
+trigger1 =! Time
+fv = 1
+value = random%3
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = !Time
+value = S0,40+fvar(1)
+volume = 999
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = !Time
+value = S0,40+fvar(1)
+volume = 999
+
+[state 0,AngleDraw]
+type = AngleDraw
+trigger1 = AnimElemTime(10)>=0
+scale = 1, 1 + (sin((time/ 50.0) * (pi / 2)) * 0.0125)
+value = 0
+ignorehitpause = 1
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = Animelem = 7 || Animelem = 14
+value = S5,31
+volume = 999
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = Animelem = 5
+x = 0
+y = -2
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = Animelem = 5
+statetype = A
+movetype = A
+physics = N
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = AnimelemTime(6)=3
+x = 0
+y = -0
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = Animelem = 16
+statetype = S
+movetype = A
+physics = N
+[State 0,PosSet]
+type = PosSet
+trigger1 = Animelem = 16
+y = 0
+
+[State 0,Glitched Aura - Hondo FX]
+type = Helper
+trigger1 = AnimelemTime(7)=0
+name = "Glitched Aura - Hondo FX"
+ID = 01
+stateno = 3015
+Size.Mid.Pos = 0,-35
+postype = p1
+facing = 1
+ownpal = 1
+size.xscale = .25
+size.yscale = .25
+Size.Head.Pos = (Random % 360), 15
+ignorehitpause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 0, Glitched Aura - PalFX]
+type = Helper
+trigger1 = (AnimelemTime(6)>= 0) && (AnimelemTime(14)<=0)
+trigger1 = (timemod = 10,0)
+helpertype = normal
+stateno = 3018
+pos = 0,0
+postype = p1
+facing = 1
+ownpal = 1
+Size.Xscale = Const(Size.Xscale)
+Size.Yscale = Const(Size.Yscale)
+ignorehitpause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 0, Hit]
+type = PlaySnd
+trigger1 = MoveHit = 1
+value = S1,38
+volumescale = 100
+ignorehitpause = 1
+Persistent = 0
+
+[State 200, 1]
+type = HitDef
+trigger1 =! MoveContact
+attr = S,NA
+hitflag = MAFD
+priority = 3,Hit
+guardflag = MA
+animtype = Hard
+damage = 20,11
+pausetime = 4,18
+guard.pausetime = 9,10
+guard.sparkno = s7000
+sparkxy = -8,-25
+guardsound = S4,1
+ground.type = High
+ground.slidetime = 27
+ground.hittime = 27
+ground.velocity = -2
+air.velocity = -0.2,-6
+guard.velocity = -7
+airguard.velocity = -2,-4
+EnvShake.Time = 13
+EnvShake.Ampl = -12
+EnvShake.Freq = 20
+fall = 0
+kill = 0
+fall.recovertime = 5
+
+[State 0,Glitched Hit - Spark]
+type = Helper
+trigger1 = MoveHit = 1
+helpertype = normal
+ID = 3025
+stateno = 3025
+pos = Cond((P2Dist X<55),P2Dist X+0,45),-30
+postype = P1
+facing = Cond(Random<500,1,-1)
+ownpal = 1
+size.xscale = .16*0.95
+size.yscale = .16*0.95
+Size.Head.Pos = (Random % 360), 15
+ignorehitpause = 1
+PERSISTENT = 0
+
+[State 200, Combo]
+type = ChangeState
+trigger1 = movehit >= 1
+value = 3001
+ctrl = 0
+IgnoreHitPause = 0
+
+[State 200, End]
+type = ChangeState
+trigger1 =! AnimTime
+value = 0
+ctrl = 1
+;-------------------------------------------------------------------------------
+; Glitched Madness - Combo 2
+;-------------------------------------------------------------------------------
+[Statedef 3001]
+type    = A
+movetype= A
+physics = N
+juggle  = 1
+ctrl = 0
+anim = 3001
+poweradd = -500
+velset = 0,0
+sprpriority = 2
+
+[State 0,Glitched Virus - Helper]
+type = Helper
+trigger1 = AnimElemTime(2)=5
+name = "Glitched Virus - Helper"
+ID = 3030
+stateno = 3030
+Pos = 0,-0
+postype = p1
+facing = 1
+ownpal = 1
+size.xscale = 1.2
+size.yscale = 1.2
+ignorehitpause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 200, End]
+type = ChangeState
+trigger1 = Time = 115
+value = 3002
+ctrl = 0
+;-------------------------------------------------------------------------------
+; Glitched Madness - Combo End
+;-------------------------------------------------------------------------------
+[Statedef 3002]
+type    = S
+movetype= A
+physics = N
+juggle  = 1
+ctrl = 0
+anim = 3002
+poweradd = -500
+velset = 0,0
+sprpriority = 2
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = Animelem = 1 || Animelem = 3 || Animelem = 15
+value = S5,31
+volume = 999
+
+[State 0,PlaySnd]
+type = PlaySnd
+trigger1 = AnimElemTime(1)=0
+value = 0,14
+volume = 999
+[State 0,PlaySnd]
+type = PlaySnd
+trigger1 = AnimElemTime(1)=0
+value = 0,14
+volume = 999
+
+[State 0,PlaySnd]
+type = PlaySnd
+trigger1 = AnimElemTime(7)=0
+value = 0,18
+volume = 999
+[State 0,PlaySnd]
+type = PlaySnd
+trigger1 = AnimElemTime(7)=0
+value = 0,18
+volume = 999
+
+[state 0,AngleDraw]
+type = AngleDraw
+trigger1 = AnimElemTime(7)>=0
+scale = 1, 1 + (sin((time/ 50.0) * (pi / 2)) * 0.0125)
+value = 0
+ignorehitpause = 1
+
+[State 0,VelSet]
+type = VelSet
+trigger1 = Time = 0
+y = 0
+
+[State 0,PosAdd]
+type = PosAdd
+trigger1 = time = 0
+x=p2bodydist x+-30
+
+[State 0,PosSet]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 0, Glitched Aura - PalFX]
+type = Helper
+trigger1 = (AnimelemTime(1)>= 0) && (AnimelemTime(15)<=0)
+trigger1 = (timemod = 10,0)
+helpertype = normal
+stateno = 3018
+pos = 0,0
+postype = p1
+facing = 1
+ownpal = 1
+Size.Xscale = Const(Size.Xscale)
+Size.Yscale = Const(Size.Yscale)
+ignorehitpause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 0,Glitched Impact - FX]
+type = Helper
+trigger1 = AnimelemTime(8)= 3
+name = "Glitched Electric - FX"
+ID = 01
+stateno = 3042
+Size.Mid.Pos = 54,-42
+postype = p1
+facing = 1
+ownpal = 1
+size.xscale = .28
+size.yscale = .28
+Size.Head.Pos = (Random % 360), 15
+ignorehitpause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 0,Glitched Impact - FX2]
+type = Helper
+trigger1 = AnimelemTime(11)= 24
+name = "Glitched Electric - FX2"
+ID = 01
+stateno = 3043
+Size.Mid.Pos = 54,-42
+postype = p1
+facing = 1
+ownpal = 1
+size.xscale = .32
+size.yscale = .28
+Size.Head.Pos = -25, 15
+ignorehitpause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 0, Hit]
+type = PlaySnd
+trigger1 = MoveHit = 1
+value = S1,32
+volumescale = 100
+ignorehitpause = 1
+Persistent = 0
+
+[State 0,TargetBind]
+type = TargetBind
+trigger1 = MoveHit = 1
+time = 1
+pos = 55,-0
+ignorehitpause = 1
+Persistent = 0
+
+[State 200, 1]
+type = HitDef
+trigger1 =! MoveContact
+attr = S,HA
+hitflag = MAFD
+priority = 3,Hit
+guardflag = MA
+animtype = Medium
+damage = 38,19
+pausetime = 4,45
+guard.pausetime = 9,10
+guard.sparkno = s7000
+sparkxy = -8,-25
+guardsound = S4,1
+ground.type = High
+ground.slidetime = 35
+ground.hittime = 35
+ground.velocity = -0
+air.velocity = -0,-1
+guard.velocity = -7
+airguard.velocity = -2,-4
+EnvShake.Time = 13
+EnvShake.Ampl = -12
+EnvShake.Freq = 20
+fall = 0
+Kill = 0
+fall.recovertime = 5
+
+[State 0,Glitched Hit - Spark]
+type = Helper
+trigger1 = MoveHit = 1
+helpertype = normal
+ID = 3025
+stateno = 3025
+pos = Cond((P2Dist X<65),P2Dist X+0,55),-40
+postype = P1
+facing = Cond(Random<500,1,-1)
+ownpal = 1
+size.xscale = .12*0.95
+size.yscale = .12*0.95
+Size.Head.Pos = (Random % 360), 15
+ignorehitpause = 1
+PERSISTENT = 0
+
+[State 0, Hit]
+type = PlaySnd
+trigger1 = Animelem = 12
+trigger1 = MoveHit = 1
+value = S1,38
+volumescale = 100
+ignorehitpause = 1
+Persistent = 0
+[State 0, Hit]
+type = PlaySnd
+trigger1 = Animelem = 12
+trigger1 = MoveHit = 1
+value = S5,64
+volumescale = 100
+ignorehitpause = 1
+Persistent = 0
+
+[State 0,TargetBind]
+type = TargetBind
+TriggerAll = AnimelemTime(12)>=0
+trigger1 = MoveHit = 1
+time = 1
+pos = 55,-12
+ignorehitpause = 1
+Persistent = 0
+
+[State 200, 1]
+type = HitDef
+trigger1 = Animelem = 12
+trigger1 = MoveContact
+attr = S,HA
+hitflag = MAFD
+priority = 3,Hit
+guardflag = MA
+animtype = Hard
+damage = 125,55
+pausetime = 12,14
+guard.pausetime = 9,7
+guard.sparkno = s7000
+sparkxy = -2,-28
+guardsound = S4,1
+ground.type = High
+ground.slidetime = 12
+ground.hittime = 15
+ground.velocity = -4.5
+air.velocity = -2,-2
+EnvShake.Time = 14
+EnvShake.Ampl = -18
+EnvShake.Freq = 35
+fall = 1
+
+[State 0, TargetState]
+type = TargetState
+TriggerAll = AnimelemTime(12)>=0
+triggerall = enemy,stateno != 8450
+trigger1 = movehit = 1
+value = 8450
+ignorehitpause = 0
+PERSISTENT = 0
+
+[State 0,Glitched Impact Hit - Spark]
+type = Helper
+trigger1 = AnimelemTime(12)>=0
+trigger1 = MoveHit = 1
+helpertype = normal
+ID = 3045
+stateno = 3045
+pos = Cond((P2Dist X<75),P2Dist X+0,65),-40
+postype = P1
+facing = Cond(Random<500,1,-1)
+ownpal = 1
+size.xscale = .16*0.95
+size.yscale = .16*0.95
+Size.Head.Pos = (Random % 360), 15
+ignorehitpause = 1
+PERSISTENT = 0
+
+[State 200, End]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+;-------------------------------------------------------------------------------
+; Glitched Madness (Aire)
+;-------------------------------------------------------------------------------
+[Statedef 3005]
+type    = A
+movetype= A
+physics = N
+juggle  = 1
+velset = 0,0
+ctrl = 0
+anim = 3005
+poweradd = -2000
+sprpriority = 3
+
+;------------------------------------------
+[State 3000, SuperPause]
+Type = SuperPause
+Trigger1 = Time = 0
+Time = 80
+MoveTime = 80
+Anim = -1
+Sound = -1
+Pos = 32,-80
+Darken = 0
+UnHitTable = 1
+
+; Ultimate Portrait
+[State 0, Ultimate Portrait]
+Type = Helper
+Trigger1 = Time = 0
+Stateno = 8050
+ID = 8050
+Pos = 0,-70
+Ownpal = 1
+Postype = p1
+PauseMoveTime = 99999
+SuperMoveTime = 99999
+;------------------------------------------
+
+[State 0, VarSet]
+type = VarSet
+trigger1 =! Time
+fv = 1
+value = random%3
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = !Time
+value = S0,40+fvar(1)
+volume = 999
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = !Time
+value = S0,40+fvar(1)
+volume = 999
+
+[state 0,AngleDraw]
+type = AngleDraw
+trigger1 = AnimElemTime(10)>=0
+scale = 1, 1 + (sin((time/ 50.0) * (pi / 2)) * 0.0125)
+value = 0
+ignorehitpause = 1
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = Animelem = 7 || Animelem = 14
+value = S5,31
+volume = 999
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = AnimelemTime(6)=3
+x = 0
+y = -0
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = Animelem = 17
+statetype = A
+movetype = A
+physics = A
+
+[State 0,Glitched Aura - Hondo FX]
+type = Helper
+trigger1 = AnimelemTime(7)=0
+name = "Glitched Aura - Hondo FX"
+ID = 01
+stateno = 3015
+Size.Mid.Pos = 0,-35
+postype = p1
+facing = 1
+ownpal = 1
+size.xscale = .25
+size.yscale = .25
+Size.Head.Pos = (Random % 360), 15
+ignorehitpause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 0, Glitched Aura - PalFX]
+type = Helper
+trigger1 = (AnimelemTime(6)>= 0) && (AnimelemTime(14)<=0)
+trigger1 = (timemod = 10,0)
+helpertype = normal
+stateno = 3018
+pos = 0,0
+postype = p1
+facing = 1
+ownpal = 1
+Size.Xscale = Const(Size.Xscale)
+Size.Yscale = Const(Size.Yscale)
+ignorehitpause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 0, Hit]
+type = PlaySnd
+trigger1 = MoveHit = 1
+value = S1,38
+volumescale = 100
+ignorehitpause = 1
+Persistent = 0
+
+[State 200, 1]
+type = HitDef
+trigger1 =! MoveContact
+attr = S,NA
+hitflag = MAFD
+priority = 3,Hit
+guardflag = MA
+animtype = Hard
+damage = 20,11
+pausetime = 4,18
+guard.pausetime = 9,10
+guard.sparkno = s7000
+sparkxy = -8,-25
+guardsound = S4,1
+ground.type = High
+ground.slidetime = 27
+ground.hittime = 27
+ground.velocity = -2
+air.velocity = -0.2,-6
+guard.velocity = -7
+airguard.velocity = -2,-4
+EnvShake.Time = 13
+EnvShake.Ampl = -12
+EnvShake.Freq = 20
+fall = 1
+fall.Recover = 0
+kill = 0
+fall.recovertime = 5
+
+[State 0,Glitched Hit - Spark]
+type = Helper
+trigger1 = MoveHit = 1
+helpertype = normal
+ID = 3025
+stateno = 3025
+pos = Cond((P2Dist X<55),P2Dist X+0,45),-30
+postype = P1
+facing = Cond(Random<500,1,-1)
+ownpal = 1
+size.xscale = .16*0.95
+size.yscale = .16*0.95
+Size.Head.Pos = (Random % 360), 15
+ignorehitpause = 1
+PERSISTENT = 0
+
+[State 200, Combo]
+type = ChangeState
+trigger1 = movehit >= 1
+value = 3006
+ctrl = 0
+IgnoreHitPause = 0
+
+[State 200, End]
+type = ChangeState
+trigger1 =! AnimTime
+value = 50
+ctrl = 1
+;-------------------------------------------------------------------------------
+; Glitched Madness (Aire) - Combo 2
+;-------------------------------------------------------------------------------
+[Statedef 3006]
+type    = A
+movetype= A
+physics = N
+juggle  = 1
+ctrl = 0
+anim = 3001
+poweradd = -500
+velset = 0,0
+sprpriority = 2
+
+[State 0,Glitched Virus - Helper]
+type = Helper
+trigger1 = AnimElemTime(2)=5
+name = "Glitched Virus - Helper"
+ID = 3030
+stateno = 3030
+Pos = 0,-0
+postype = p1
+facing = 1
+ownpal = 1
+size.xscale = 1.2
+size.yscale = 1.2
+ignorehitpause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 200, End]
+type = ChangeState
+trigger1 = Time = 115
+trigger2 = Time >= 115 && Enemy,Pos Y >= 0
+value = 3002
+ctrl = 0
+;-------------------------------------------------------------------------------
+; Glitched Aura - Hondo FX
+[Statedef 3015]
+type = S
+movetype = I
+physics = N
+ctrl = 0
+anim = 3015
+sprpriority = 3
+
+[State 0, PalFXWiz]
+Type = PalFX
+Trigger1 = 1
+Time = -1
+Add = -10,-85,0
+Mul = 512,512,512
+Color = 0
+
+[State 0, PlaySnd]
+type = PlaySnd
+TriggerAll = IsHelper(01)
+trigger1 = !Time
+value = S5,64
+volume = 999
+[State 0, PlaySnd]
+type = PlaySnd
+TriggerAll = IsHelper(01)
+trigger1 = !Time
+value = S5,64
+volume = 999
+
+[State 0, EnvShake]
+type = EnvShake
+TriggerAll = IsHelper(01)
+trigger1 = time = 0
+time = 12
+ampl = -10
+freq = 10
+
+[State 0, BindToRoot]
+type = BindToRoot
+trigger1 = 1
+pos = Const(Size.Mid.Pos.X),Const(Size.Mid.Pos.Y)
+
+[State 0,AngleDraw]
+type = AngleDraw
+trigger1 = 1
+value = Const(Size.Head.Pos.X)
+
+[State 0, Trans]
+type = Trans
+trigger1 = 1
+trans = Add
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 0, PalFXWiz]
+Type = PalFX
+TriggerAll = IsHelper(02)
+Trigger1 = 1
+Time = -1
+Add = 0,0,0
+Mul = 512,515,512
+Color = 0
+
+[State 0, Trans]
+type = Trans
+TriggerAll = IsHelper(02)
+trigger1 = 1
+trans = Sub
+
+[State 0, SprPriority]
+type = SprPriority
+TriggerAll = IsHelper(02)
+trigger1 = 1
+value = 2
+
+[State 0,Purple Hondo - FXSUB]
+type = Helper
+TriggerAll = IsHelper(01)
+trigger1 =! Time
+name = "Purple Hondo - FXSUB"
+ID = 02
+stateno = 1025
+pos = 0,-0
+postype = p1
+facing = 1
+ownpal = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 200, End]
+type = Destroyself
+trigger1 = !AnimTime
+;-------------------------------------------------------------------------------
+; Glitched Aura - PalFX 
+[Statedef 3018]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+
+[State 0, PalFXWiz]
+Type = PalFX
+Trigger1 = 1
+Time = -1
+Add = 150,0,256
+Mul = 256,256,256
+Color = 0
+
+[State 0,ChangeAnim]
+type=ChangeAnim
+trigger1 = selfanimexist(parent,anim)
+value = (parent,anim)
+elem = (parent,animelemno(0))
+
+[State 0,SprPriority]
+type = SprPriority
+trigger1 = 1
+value = 1
+ignorehitpause = 1
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = 1
+scale = 1+(time)*.01,1+(time)*.01
+value = 0
+
+[State 0, BindToParent]
+type = BindToParent
+trigger1 = 1
+pos = 0,0
+
+[State 0,PlayerPush]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 0,NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 1
+
+[State 0,Trans]
+type = Trans
+trigger1 = 1
+trans = addalpha
+alpha = 135-(Time*08),256+(Time*15)
+
+[State 0,AssertSpecial]
+type = AssertSpecial
+Trigger1 = 1
+flag = NoShadow
+
+[State 0,DestroySelf]
+type = DestroySelf
+trigger1 = Time >= 15
+;-------------------------------------------------------------------------------
+; Glitched Hit - Spark 
+[Statedef 3025]
+type    = A
+movetype= I
+physics = N
+anim = 9999
+sprpriority = 2
+
+[State 0, PalFXWiz]
+Type = PalFX
+Trigger1 = 1
+Time = -1
+Add = -10,-85,0
+Mul = 512,512,512
+Color = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time
+v = 1
+value = random%360
+
+[state 0,Explod]
+Type = Explod
+Triggerall = IsHelper(3025)
+Trigger1 =! Time
+Anim = 8045
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 3
+Scale = const(size.xscale)*1.75,const(size.yscale)*1.75
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = Add
+[state 0,Explod]
+Type = Explod
+Triggerall = IsHelper(02)
+Trigger1 =! Time
+Anim = 8045
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 2
+Scale = const(size.xscale)*1.75,const(size.yscale)*1.75
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = sub
+
+[state 0,Explod]
+Type = Explod
+Triggerall = IsHelper(3025)
+Trigger1 =! Time
+Anim = 7011
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 3
+Scale = const(size.xscale)*1.75,const(size.yscale)*1.75
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = Add
+[state 0,Explod]
+Type = Explod
+Triggerall = IsHelper(02)
+Trigger1 =! Time
+Anim = 7011
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 2
+Scale = const(size.xscale)*1.75,const(size.yscale)*1.75
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = sub
+
+[state 0,Explod]
+Type = Explod
+Triggerall = IsHelper(3025)
+Trigger1 =! Time
+Anim = 7013
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 3
+Scale = const(size.xscale)*1.75,const(size.yscale)*1.75
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 1
+Alpha = 156,256
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+
+[State 0, PalFXWiz]
+Type = PalFX
+TriggerAll = IsHelper(02)
+Trigger1 = 1
+Time = -1
+Add = 0,0,0
+Mul = 512,512,512
+Color = 0
+
+[State 0,Mid Hit Spark - FXSUB]
+type = Helper
+Triggerall = IsHelper(3025)
+Trigger1 =! Time
+helpertype = normal
+ID = 02
+stateno = 3025
+pos = 0,0
+postype = P1
+facing = 1
+ownpal = 1
+ignorehitpause = 1
+
+[State 200, End]
+type = Destroyself
+trigger1 = !numexplod(stateno)
+ignorehitpause = 1
+removeexplods = 1
+;-------------------------------------------------------------------------------
+; Glitched Virus - Helper
+;-------------------------------------------------------------------------------
+[Statedef 3030]
+type    = A
+movetype= A
+physics = N
+juggle  = 1
+velset = 0,0
+ctrl = 0
+anim = 3030
+sprpriority = 3
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = !Time
+value = S5,58
+volume = 999
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = !Time
+value = S5,58
+volume = 999
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = AnimelemTime(2)= 0
+value = S5,64
+volume = 999
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = AnimelemTime(2)= 0
+value = S5,64
+volume = 999
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = AnimelemTime(2)= 0
+value = S5,84
+volume = 999
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = AnimelemTime(2)= 0
+value = S5,84
+volume = 999
+
+[State 0,Glitched Electric - FX]
+type = Helper
+trigger1 = (AnimelemTime(2)>= 0)
+trigger1 = (timemod = 5,0)
+name = "Glitched Electric - FX"
+ID = 01
+stateno = 3035
+pos = -20+random%35,-65+random%55
+postype = p1
+facing = 1
+ownpal = 1
+size.xscale = .28
+size.yscale = .28
+Size.Head.Pos = (Random % 360), 15
+ignorehitpause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+[State 0,Glitched Electric - Hondo FX]
+type = Helper
+trigger1 = (AnimelemTime(2)>= 0)
+trigger1 = (timemod = 10,0)
+name = "Glitched Electric - Hondo FX"
+ID = 3036
+stateno = 3036
+pos = 0,-38
+postype = p1
+facing = 1
+ownpal = 1
+size.xscale = .35
+size.yscale = .35
+Size.Head.Pos = (Random % 360), 15
+ignorehitpause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 0, Glitched Aura - PalFX]
+type = Helper
+trigger1 = (AnimelemTime(3)>= 0)
+trigger1 = (timemod = 10,0)
+helpertype = normal
+stateno = 3018
+pos = 0,0
+postype = p1
+facing = 1
+ownpal = 1
+Size.Xscale = Const(Size.Xscale)
+Size.Yscale = Const(Size.Yscale)
+ignorehitpause = 1
+supermovetime = 9999
+pausemovetime = 9999
+
+[State 0, Hit]
+type = PlaySnd
+trigger1 = MoveHit = 1
+value = S5,87
+volumescale = 100
+ignorehitpause = 1
+Persistent = 6
+
+[State 200, 1]
+type = HitDef
+trigger1 = timemod = 7,0
+attr = A,NA
+hitflag = MAFD
+guardflag = MA
+animtype = Medium
+damage = 11,5
+pausetime = 0,5
+guard.pausetime = 2,5
+guard.sparkno = s7000
+sparkxy = -8,-25
+guardsound = S4,1
+ground.type = Low
+ground.slidetime = 18
+ground.hittime = 15
+ground.velocity = Cond(Cond(Var(50)=0,P2BodyDist X<20,P2BodyDist X<25),-3,4)
+air.velocity = Cond(Cond(Var(50)=0,P2BodyDist X<20,P2BodyDist X<25),-3,3),-1
+EnvShake.Time = 7
+EnvShake.Ampl = -7
+EnvShake.Freq = 7
+fall = 0
+kill = 0
+numhits = 4
+
+[State 0,Glitched Hit - Spark]
+type = Helper
+trigger1 = MoveHit = 1
+helpertype = normal
+ID = 3025
+stateno = 3025
+pos = -20+random%25,-45+random%38
+postype = P2
+facing = Cond(Random<500,1,-1)
+ownpal = 1
+size.xscale = .098*0.95
+size.yscale = .098*0.95
+Size.Head.Pos = (Random % 360), 15
+ignorehitpause = 1
+PERSISTENT = 6
+
+[State 0, End]
+type = ChangeState
+trigger1 = Root,Stateno = 3006
+trigger1 = Time = 95
+value = 3032
+
+[State 0, End]
+type = ChangeState
+trigger1 = Time = 95
+value = 3031
+;-------------------------------------------------------------------------------
+; Glitched Virus - End
+;-------------------------------------------------------------------------------
+[Statedef 3031]
+type    = A
+movetype= A
+physics = N
+juggle  = 1
+velset = 0,0
+ctrl = 0
+anim = 3031
+sprpriority = 2
+
+[State 0, Hit]
+type = PlaySnd
+trigger1 = MoveHit = 1
+value = S5,87
+volumescale = 100
+ignorehitpause = 1
+Persistent = 0
+
+[State 200, 1]
+type = HitDef
+trigger1 =! MoveContact
+attr = S,NA
+hitflag = MAFD
+priority = 3,Hit
+guardflag = MA
+animtype = Hard
+damage = 32,12
+pausetime = 0,25
+guard.pausetime = 9,7
+guard.sparkno = s7000
+sparkxy = -2,-28
+guardsound = S4,1
+ground.type = High
+ground.slidetime = 35
+ground.hittime = 35
+ground.velocity = -0.2
+air.velocity = -0.2,-6
+EnvShake.Time = 12
+EnvShake.Ampl = -12
+EnvShake.Freq = 25
+fall = 0
+fall.recover = 0
+kill = 0
+
+[State 200, End]
+type = Destroyself
+trigger1 = !AnimTime
+;-------------------------------------------------------------------------------
+; Glitched Virus (Aire) - End
+;-------------------------------------------------------------------------------
+[Statedef 3032]
+type    = A
+movetype= A
+physics = N
+juggle  = 1
+velset = 0,0
+ctrl = 0
+anim = 3031
+sprpriority = 2
+
+[State 0, Hit]
+type = PlaySnd
+trigger1 = MoveHit = 1
+value = S5,87
+volumescale = 100
+ignorehitpause = 1
+Persistent = 0
+
+[State 200, 1]
+type = HitDef
+trigger1 =! MoveContact
+attr = S,HA
+hitflag = MAFD
+priority = 3,Hit
+guardflag = MA
+animtype = Hard
+damage = 32,12
+pausetime = 0,15
+guard.pausetime = 9,7
+guard.sparkno = s7000
+sparkxy = -2,-28
+guardsound = S4,1
+ground.type = High
+ground.slidetime = 35
+ground.hittime = 35
+ground.velocity = -0.1,6
+air.velocity = -0.1,6
+EnvShake.Time = 12
+EnvShake.Ampl = -12
+EnvShake.Freq = 25
+fall = 1
+fall.recover = 0
+kill = 0
+YACCEL = 2
+FALL.XVelocity = -0.1
+FALL.YVelocity = -6
+
+[State 200, End]
+type = Destroyself
+trigger1 = !AnimTime
+;-------------------------------------------------------------------------------
+; Glitched Electric - FX
+[Statedef 3035]
+type = S
+movetype = I
+physics = N
+ctrl = 0
+anim = 3035
+sprpriority = 1
+
+[State 0, PalFXWiz]
+Type = PalFX
+Trigger1 = 1
+Time = -1
+Add = -10,-85,0
+Mul = 512,512,512
+Color = 0
+
+[State 0,AngleDraw]
+type = AngleDraw
+trigger1 = 1
+value = Const(Size.Head.Pos.X)
+
+[State 0, Trans]
+type = Trans
+trigger1 = 1
+trans = Add
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 0, PalFXWiz]
+Type = PalFX
+TriggerAll = IsHelper(02)
+Trigger1 = 1
+Time = -1
+Add = 0,0,0
+Mul = 512,515,512
+Color = 0
+
+[State 0, Trans]
+type = Trans
+TriggerAll = IsHelper(02)
+trigger1 = 1
+trans = Sub
+
+[State 0, SprPriority]
+type = SprPriority
+TriggerAll = IsHelper(02)
+trigger1 = 1
+value = 0
+
+[State 0,Glitched Electric - FXSUB]
+type = Helper
+TriggerAll = IsHelper(01)
+trigger1 =! Time
+name = "Glitched Electric - FXSUB"
+ID = 02
+stateno = 3035
+Pos = 0,-0
+postype = p1
+facing = 1
+ownpal = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 200, End]
+type = Destroyself
+trigger1 = !AnimTime
+;-------------------------------------------------------------------------------
+; Glitched Electric - Hondo FX 
+[Statedef 3036]
+type    = A
+movetype= I
+physics = N
+anim = 9999
+sprpriority = 2
+
+[State 0, PalFXWiz]
+Type = PalFX
+Trigger1 = 1
+Time = -1
+Add = -10,-85,0
+Mul = 512,512,512
+Color = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time
+v = 1
+value = random%360
+
+[state 0,Explod]
+Type = Explod
+Triggerall = IsHelper(3036)
+Trigger1 =! Time
+Anim = 3036
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 1
+Scale = const(size.xscale),const(size.yscale)
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = Add
+[state 0,Explod]
+Type = Explod
+Triggerall = IsHelper(02)
+Trigger1 =! Time
+Anim = 3036
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 0
+Scale = const(size.xscale),const(size.yscale)
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = sub
+
+[State 0, PalFXWiz]
+Type = PalFX
+TriggerAll = IsHelper(02)
+Trigger1 = 1
+Time = -1
+Add = 0,0,0
+Mul = 512,512,512
+Color = 0
+
+[State 0,Mid Hit Spark - FXSUB]
+type = Helper
+Triggerall = IsHelper(3036)
+Trigger1 =! Time
+helpertype = normal
+ID = 02
+stateno = 3036
+pos = 0,0
+postype = P1
+facing = 1
+ownpal = 1
+ignorehitpause = 1
+
+[State 200, End]
+type = Destroyself
+trigger1 = !numexplod(stateno)
+ignorehitpause = 1
+removeexplods = 1
+;-------------------------------------------------------------------------------
+; Glitched Impact - FX
+[Statedef 3042]
+type = S
+movetype = I
+physics = N
+ctrl = 0
+anim = 3042
+sprpriority = 3
+
+[State 0, PalFXWiz]
+Type = PalFX
+Trigger1 = 1
+Time = -1
+Add = -10,-85,0
+Mul = 512,512,512
+Color = 0
+
+[State 0, PlaySnd]
+type = PlaySnd
+TriggerAll = IsHelper(01)
+trigger1 = !Time
+value = S5,61
+volume = 999
+[State 0, PlaySnd]
+type = PlaySnd
+TriggerAll = IsHelper(01)
+trigger1 = !Time
+value = S5,61
+volume = 999
+
+[State 0, EnvShake]
+type = EnvShake
+TriggerAll = IsHelper(01)
+trigger1 = time = 0
+time = 7
+ampl = -7
+freq = 12
+
+[State 0, BindToRoot]
+type = BindToRoot
+trigger1 = 1
+pos = Const(Size.Mid.Pos.X),Const(Size.Mid.Pos.Y)
+
+[State 0,AngleDraw]
+type = AngleDraw
+trigger1 = 1
+value = Const(Size.Head.Pos.X)
+
+[State 0, Trans]
+type = Trans
+trigger1 = 1
+trans = Add
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 0, PalFXWiz]
+Type = PalFX
+TriggerAll = IsHelper(02)
+Trigger1 = 1
+Time = -1
+Add = 0,0,0
+Mul = 512,515,512
+Color = 0
+
+[State 0, Trans]
+type = Trans
+TriggerAll = IsHelper(02)
+trigger1 = 1
+trans = Sub
+
+[State 0, SprPriority]
+type = SprPriority
+TriggerAll = IsHelper(02)
+trigger1 = 1
+value = 2
+
+[State 0,Glitched Impact - FXSUB]
+type = Helper
+TriggerAll = IsHelper(01)
+trigger1 =! Time
+name = "Glitched Impact - FXSUB"
+ID = 02
+stateno = 3042
+pos = 0,-0
+postype = p1
+facing = 1
+ownpal = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 200, End]
+type = Destroyself
+trigger1 = !AnimTime
+;-------------------------------------------------------------------------------
+; Glitched Impact - FX2
+[Statedef 3043]
+type = S
+movetype = I
+physics = N
+ctrl = 0
+anim = 3043
+sprpriority = 3
+
+[State 0, PalFXWiz]
+Type = PalFX
+Trigger1 = 1
+Time = -1
+Add = -10,-85,0
+Mul = 512,512,512
+Color = 0
+
+[State 0, PlaySnd]
+type = PlaySnd
+TriggerAll = IsHelper(01)
+trigger1 = !Time
+value = S5,64
+volume = 999
+[State 0, PlaySnd]
+type = PlaySnd
+TriggerAll = IsHelper(01)
+trigger1 = !Time
+value = S5,64
+volume = 999
+
+[State 0, BindToRoot]
+type = BindToRoot
+trigger1 = 1
+pos = Const(Size.Mid.Pos.X),Const(Size.Mid.Pos.Y)
+
+[State 0,AngleDraw]
+type = AngleDraw
+trigger1 = 1
+value = Const(Size.Head.Pos.X)
+
+[State 0, Trans]
+type = Trans
+trigger1 = 1
+trans = Add
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 0, PalFXWiz]
+Type = PalFX
+TriggerAll = IsHelper(02)
+Trigger1 = 1
+Time = -1
+Add = 0,0,0
+Mul = 512,515,512
+Color = 0
+
+[State 0, Trans]
+type = Trans
+TriggerAll = IsHelper(02)
+trigger1 = 1
+trans = Sub
+
+[State 0, SprPriority]
+type = SprPriority
+TriggerAll = IsHelper(02)
+trigger1 = 1
+value = 2
+
+[State 0,Glitched Impact - FX2SUB]
+type = Helper
+TriggerAll = IsHelper(01)
+trigger1 =! Time
+name = "Glitched Impact - FX2SUB"
+ID = 02
+stateno = 3043
+pos = 0,-0
+postype = p1
+facing = 1
+ownpal = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State 200, End]
+type = Destroyself
+trigger1 = !AnimTime
+;-------------------------------------------------------------------------------
+; Glitched Impact Hit - Spark 
+[Statedef 3045]
+type    = A
+movetype= I
+physics = N
+anim = 9999
+sprpriority = 2
+
+[State 0, PalFXWiz]
+Type = PalFX
+Trigger1 = 1
+Time = -1
+Add = -10,-85,0
+Mul = 512,512,512
+Color = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time
+v = 1
+value = random%360
+
+[state 0,Explod]
+Type = Explod
+Triggerall = IsHelper(3045)
+Trigger1 =! Time
+Anim = 8045
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 3
+Scale = const(size.xscale)*1.75,const(size.yscale)*1.75
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = Add
+[state 0,Explod]
+Type = Explod
+Triggerall = IsHelper(02)
+Trigger1 =! Time
+Anim = 8045
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 2
+Scale = const(size.xscale)*1.75,const(size.yscale)*1.75
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = sub
+
+[state 0,Explod]
+Type = Explod
+Triggerall = IsHelper(3045)
+Trigger1 =! Time
+Anim = 8049
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 3
+Scale = const(size.xscale)*1.75,const(size.yscale)*1.75
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = Add
+[state 0,Explod]
+Type = Explod
+Triggerall = IsHelper(02)
+Trigger1 =! Time
+Anim = 8049
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 2
+Scale = const(size.xscale)*1.75,const(size.yscale)*1.75
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = sub
+
+[state 0,Spark Hondo]
+Type = Explod
+Triggerall = IsHelper(3045)
+Trigger1 =! Time
+Anim = 8040
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 3
+Scale = const(size.xscale)*1.75,const(size.yscale)*1.75
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = Add
+[state 0,Spark Hondo]
+Type = Explod
+Triggerall = IsHelper(02)
+Trigger1 =! Time
+Anim = 8040
+Id = stateno
+Pos = 0,0
+PosType = p1
+Facing = 1
+BindTime = -1
+Removetime = -2
+Sprpriority = 2
+Scale = const(size.xscale)*1.75,const(size.yscale)*1.75
+Angle = Const(Size.Head.Pos.X)
+Ownpal = 0
+Removeongethit  =1
+Ignorehitpause = 1
+SuperMoveTime = 999
+PauseMoveTime = 999
+Trans = sub
+
+[State 0, PalFXWiz]
+Type = PalFX
+TriggerAll = IsHelper(02)
+Trigger1 = 1
+Time = -1
+Add = 0,0,0
+Mul = 512,512,512
+Color = 0
+
+[State 0,Mid Hit Spark - FXSUB]
+type = Helper
+Triggerall = IsHelper(3045)
+Trigger1 =! Time
+helpertype = normal
+ID = 02
+stateno = 3045
+pos = 0,0
+postype = P1
+facing = 1
+ownpal = 1
+ignorehitpause = 1
+
+[State 200, End]
+type = Destroyself
+trigger1 = !numexplod(stateno)
+ignorehitpause = 1
+removeexplods = 1
